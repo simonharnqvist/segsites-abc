@@ -103,9 +103,12 @@ def generate_single_training_set(blocklen, mutation_rate, recombination_rate, nu
     S = seg_sites_distr(demography=demography, num_blocks_per_state=num_blocks_per_state,
                                   mutation_rate=mutation_rate, recombination_rate=recombination_rate, blocklen=blocklen)
     
-    return S, param_set
+    vec_S = np.concatenate(S)
+    sparse_S = scipy.sparse.csr_array(vec_S)
+    
+    return sparse_S, param_set
 
-def generate_training_set(blocklen, mutation_rate, recombination_rate, num_blocks_per_state, n, n_cpus=1):
+def generate_training_set(blocklen, mutation_rate, recombination_rate, num_blocks_per_state, n, n_cpus=1, saveto=None, return_dense=True):
 
     if n_cpus == -1:
         n_cpus = os.cpu_count()-1
@@ -118,7 +121,13 @@ def generate_training_set(blocklen, mutation_rate, recombination_rate, num_block
                                                                              recombination_rate=recombination_rate,
                                                                              num_blocks_per_state=num_blocks_per_state) for _ in range(n))
     
-    X_mat = np.array([np.concatenate(res[0]) for res in trainset])
-    y_mat = np.array([np.array(res[1]) for res in trainset])
+    X = np.array([res[0] for res in trainset])
+    y = np.array([np.array(res[1]) for res in trainset])
 
-    return X_mat, y_mat
+    if saveto is not None:
+        np.savez(saveto, X=X, y=y)
+
+    if return_dense:
+        X = np.vstack([mat.todense() for mat in X])
+
+    return X, y
