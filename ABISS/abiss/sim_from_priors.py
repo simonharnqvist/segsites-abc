@@ -45,9 +45,9 @@ def sim_from_priors(model_type,
     M_prior = generate_params(distribution=M_distr, params=M_distr_params, n=n_M_params)
 
     if model_type.lower() == "iim":
-        M_prior = [0, 0] + M_prior
+        M_prior = [0, 0] + list(M_prior)
     elif model_type.lower() == "sc":
-        M_prior = M_prior + [0, 0]
+        M_prior = list(M_prior) + [0, 0]
 
     if len(tau_prior) == 1:
         tau_split = tau_prior[0]

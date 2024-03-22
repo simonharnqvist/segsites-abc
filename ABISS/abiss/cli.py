@@ -15,7 +15,9 @@ def main():
                         [min max] for uniform; 
                         [alpha loc scale] for gamma; 
                         [loc scale] for exponential""",
-                        default=[0, 1e7])
+                        nargs="+",
+                        default=[0, 1e7],
+                        type=float)
     parser.add_argument("--tau-prior-distr",
                         help="Distribution to sample tau (in Ne generations) from in simulations",
                         choices=["uniform", "gamma", "exponential"],
@@ -25,7 +27,9 @@ def main():
                         [min max] for uniform; 
                         [alpha loc scale] for gamma; 
                         [loc scale] for exponential""",
-                        default=[0, 100])
+                        nargs="+",
+                        default=[0, 100],
+                        type=float)
     parser.add_argument("--M-prior-distr",
                         help="Distribution to sample M (migrants per generation) from in simulations",
                         choices=["uniform", "gamma", "exponential"],
@@ -35,11 +39,14 @@ def main():
                         [min max] for uniform; 
                         [alpha loc scale] for gamma; 
                         [loc scale] for exponential""",
-                        default=[0, 40])
+                        nargs="+",
+                        default=[0, 40],
+                        type=float)
 
     # Reference table options
     parser.add_argument("--num-sims-per-model",
                         help="Number of simulations to perform per model",
+                        type=int,
                         default=50_000)
     parser.add_argument("--blocklen",
                         type=int,
@@ -73,12 +80,12 @@ def main():
     simulations = simulate(models=["iso_2epoch", "im", 
                                    "iso_3epoch", "iim",
                                    "sc", "gim"],
-                        Ne_distr=args.Ne_prior_distr,
+                Ne_distr=args.Ne_prior_distr,
                 Ne_distr_params=args.Ne_prior_distr_params,
                 tau_distr=args.tau_prior_distr,
                 tau_distr_params=args.tau_prior_distr_params,
-                M_distr=args.M_prior_distr_params,
-                M_distr_params=args.M_prior_distr,
+                M_distr=args.M_prior_distr,
+                M_distr_params=args.M_prior_distr_params,
                 mutation_rate=args.mutation_rate,
                 recombination_rate=args.recombination_rate,
                 blocklen=args.blocklen,

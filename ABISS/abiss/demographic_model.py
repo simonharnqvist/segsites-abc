@@ -20,6 +20,7 @@ class DemographicModel:
         if self.tau_change is not None:
             self.epoch_end_time = tau_change * population_sizes[-3]
         if self.Ms is not None:
+            assert len(self.Ms) == len(self.population_sizes)-1, "Must provide n-1 migration rates, where n is number of populations in model."
             self.migration_rates = np.array(self.Ms)/(2 * np.array(self.population_sizes[:-1]))
         else:
             self.migration_rates = None
