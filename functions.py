@@ -76,7 +76,7 @@ def seg_sites_distr(demography, num_blocks_per_state, mutation_rate, recombinati
     for s in [s1, s2, s3]:
         s_arr = np.zeros(blocklen)
         s_counter = Counter(s)
-        res = s_arr[
+        s_arr[
             np.array(list(s_counter.keys())).astype(int)] = list(s_counter.values())
         seg_sites.append(np.pad(s_arr, (0, blocklen-len(s_arr))))
         
@@ -86,20 +86,29 @@ def uniform_theta_prior(blocklen, mutation_rate, maxNe=1e6, n=1):
     max_theta = maxNe * mutation_rate * blocklen
     return scipy.stats.uniform.rvs(0, max_theta, size=n)
 
-def uniform_tau_prior(n):
+def uniform_tau_prior(n=1):
     return scipy.stats.uniform.rvs(0, 20, size=n)
 
-def uniform_M_prior(n):
-    return scipy.stats.uniform.rvs(0, 40, size=n)
+def uniform_Ne_prior(n=1, maxNe=2e6):
+    return scipy.stats.uniform.rvs(1, maxNe, size=n)
+
+def uniform_split_prior(n=1, mingen=1, maxgen=2e6):
+    return scipy.stats.uniform.rvs(mingen, maxgen, size=n)
+
+def uniform_M_prior(n=1):
+    return scipy.stats.uniform.rvs(0, 20, size=n)
 
 def generate_single_training_set(blocklen, mutation_rate, recombination_rate, num_blocks_per_state):
-    param_set = (list(uniform_theta_prior(blocklen=blocklen, mutation_rate=mutation_rate, n=3)) 
-                 + list(uniform_tau_prior(n=1)) 
-                 + list(uniform_M_prior(n=2)))
+    # param_set = (list(uniform_theta_prior(blocklen=blocklen, mutation_rate=mutation_rate, n=3)) 
+    #              + list(uniform_tau_prior(n=1)) 
+    #              + list(uniform_M_prior(n=2)))
+    param_set = (list(uniform_Ne_prior(n=3)) 
+                  + list(uniform_split_prior(n=1)) 
+                  + list(uniform_M_prior(n=2)))
     theta1, theta2, theta_anc, tau, M12, M21 = param_set
-    reparameterised = reparameterise(theta1, theta2, theta_anc, tau, M12, M21, blocklen=blocklen, mutation_rate=mutation_rate)
-    demography = im_model(reparameterised[0], reparameterised[1], 
-                          reparameterised[2], reparameterised[3], reparameterised[4], reparameterised[5])
+    #reparameterised = reparameterise(theta1, theta2, theta_anc, tau, M12, M21, blocklen=blocklen, mutation_rate=mutation_rate)
+    demography = im_model(param_set[0], param_set[1], 
+                          param_set[2], param_set[3], param_set[4], param_set[5])
     S = seg_sites_distr(demography=demography, num_blocks_per_state=num_blocks_per_state,
                                   mutation_rate=mutation_rate, recombination_rate=recombination_rate, blocklen=blocklen)
     
@@ -113,13 +122,16 @@ def generate_training_set(blocklen, mutation_rate, recombination_rate, num_block
     if n_cpus == -1:
         n_cpus = os.cpu_count()-1
 
-    print(f"Generating training data of length {n} of {np.sum(num_blocks_per_state)} blocks each on {n_cpus} cores")
+    print(f"Generating training data of length {n} of {np.sum(num_blocks_per_state)} blocks each using {n_cpus} cores")
     
-    
-    trainset = Parallel(n_jobs=n_cpus)(delayed(generate_single_training_set)(blocklen=blocklen,
-                                                                             mutation_rate=mutation_rate,
-                                                                             recombination_rate=recombination_rate,
-                                                                             num_blocks_per_state=num_blocks_per_state) for _ in range(n))
+    trainset = list(
+        tqdm.tqdm(
+            Parallel(return_as="generator", n_jobs=n_cpus)(
+                delayed(generate_single_training_set)(
+                    blocklen=blocklen,
+                    mutation_rate=mutation_rate,
+                    recombination_rate=recombination_rate,
+                    num_blocks_per_state=num_blocks_per_state) for _ in range(n)), total=n,))
     
     X = np.array([res[0] for res in trainset])
     y = np.array([np.array(res[1]) for res in trainset])

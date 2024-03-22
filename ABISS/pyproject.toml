@@ -1,0 +1,6 @@
+[project]
+name = "ABISS"
+version = "0.0.1"
+
+[project.scripts]
+abiss = "abiss.cli:main"
