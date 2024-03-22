@@ -1,0 +1,11 @@
+[] map populations to samples (VCFHeader samples)
+[] BED of callable regions per sample from mosdepth BED
+[] subset features from annotation
+[] trim annotation features
+[] subset all sample BEDs against one another for pairwise overlapping regions
+[] make BED of pairwise blocks
+[] filter for minimum block distance
+[] random blocking alternative
+[] subset VCF according to each BED
+[] count seg_sites
+[] assign state

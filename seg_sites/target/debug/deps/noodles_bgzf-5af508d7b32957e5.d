@@ -1,0 +1,10 @@
+/Users/s2341012/Library/CloudStorage/Dropbox/Inference_method_chapter/ABC/seg_sites/target/debug/deps/libnoodles_bgzf-5af508d7b32957e5.rmeta: /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/lib.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/block.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/gz.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/reader.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/virtual_position.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/writer.rs
+
+/Users/s2341012/Library/CloudStorage/Dropbox/Inference_method_chapter/ABC/seg_sites/target/debug/deps/noodles_bgzf-5af508d7b32957e5.d: /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/lib.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/block.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/gz.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/reader.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/virtual_position.rs /Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/writer.rs
+
+/Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/lib.rs:
+/Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/block.rs:
+/Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/gz.rs:
+/Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/reader.rs:
+/Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/virtual_position.rs:
+/Users/s2341012/.cargo/registry/src/index.crates.io-6f17d22bba15001f/noodles-bgzf-0.4.0/src/writer.rs:
