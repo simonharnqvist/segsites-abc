@@ -31,6 +31,8 @@ def simulate(models, Ne_distr, tau_distr,
     y_model = np.array([sim.model_name for sim in sims])
     X = np.array([sim.seg_sites_distr for sim in sims])
 
+    X = np.array([np.concatenate(sim) for sim in X])
+
     if save_as is not None:
         np.savez(save_as, X=X, y_params=y_params, y_model=y_model)
         

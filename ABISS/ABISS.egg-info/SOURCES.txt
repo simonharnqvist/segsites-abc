@@ -11,5 +11,6 @@ abiss/demographic_simulation.py
 abiss/generate_prior_distributions.py
 abiss/generate_reference_data.py
 abiss/main_outline.py
+abiss/model_classifier.py
 abiss/sim_from_priors.py
 tests/test_demographic_model.py

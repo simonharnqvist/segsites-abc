@@ -1,6 +1,9 @@
 import argparse
 from abiss.generate_reference_data import simulate
+from abiss.model_classifier import model_classification
 import os
+from pathlib import Path
+import numpy as np
 
 def main():
     parser = argparse.ArgumentParser()
@@ -71,12 +74,18 @@ def main():
                         type=int,
                         default=1,
                         help="Number of threads; set to -1 for n(cpus)-1")
+    
+    # Temporary data option
+    parser.add_argument("--seg-sites-dist", help="Path to NumPy array with segregating sites distr")
 
     args = parser.parse_args()
 
     if args.threads == -1:
         args.threads = os.cpu_count()-1
 
+    Path(args.output_dir).mkdir(parents=True, exist_ok=False)
+
+    print("Simulating reference data")
     simulations = simulate(models=["iso_2epoch", "im", 
                                    "iso_3epoch", "iim",
                                    "sc", "gim"],
@@ -94,7 +103,12 @@ def main():
                 threads=args.threads,
                 save_as=f"{args.output_dir}/simulations.npz")
     
-    return simulations
+
+    print("Inferring from reference data")
+    X_true = np.load(args.seg_sites_dist)["S"]
+    model_classification(npz=f"{args.output_dir}/simulations.npz", X_true=X_true, outdir=args.output_dir)
+    
+    return True
 
 if __name__ == "__main__":
     main()
