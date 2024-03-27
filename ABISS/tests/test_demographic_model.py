@@ -10,7 +10,7 @@ def make_model():
         tau_split=1/3,
         tau_change=1/6,
         Ms=(3, 1.5, 1.5, 1),
-    ).msprime_demography
+    )
 
 def test_population_sizes(make_model):
     msprime_pop_sizes = [pop.initial_size for pop in make_model.populations]
